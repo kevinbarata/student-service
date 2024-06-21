@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.student.dao.StudentBiodataDao">
+
+    <insert id="insert" parameterType="com.project.student.dto.BiodataDto" useGeneratedKeys="true" keyProperty="id">
+        insert into student.biodata
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="studentName != null and studentName != ''">student_name,</if>
+            <if test="gender != null and gender != ''">gender,</if>
+
+            <if test="major != null and major != ''">major,</if>
+            <if test="grade != null and grade!= ''">grade,</if>
+            <if test="motherName != null and motherName != ''">mother_name,</if>
+            <if test="fatherName != null and fatherName!= ''">father_name,</if>
+            <if test="religion != null and religion!= ''">religion,</if>
+
+            <if test="bornCity != null and bornCity != ''">born_city,</if>
+            <if test="birthDay != null and birthDay != ''">birth_day,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="district != null and district!= ''">district,</if>
+
+            <if test="address != null and address!= ''">address,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="studentName != null and studentName != ''">#{studentName},</if>
+            <if test="gender != null and gender != ''">#{gender},</if>
+
+            <if test="major != null and major != ''">#{major},</if>
+            <if test="grade != null and grade != ''">#{grade},</if>
+            <if test="motherName != null and motherName != ''">#{motherName},</if>
+            <if test="fatherName != null and fatherName != ''">#{fatherName},</if>
+            <if test="religion != null and religion != ''">#{religion},</if>
+
+            <if test="bornCity != null and bornCity != ''">#{bornCity},</if>
+            <if test="birthDay != null and birthDay != ''">#{birthDay},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="district != null and district != ''">#{district},</if>
+
+            <if test="address != null and address !=''">#{address},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.project.student.dto.BiodataDto">
+        update student.biodata
+        <set>
+            <if test="studentName != null and studentName != ''">
+                student_name = #{studentName},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+
+            <if test="major != null and major != ''">
+                major = #{major},
+            </if>
+            <if test="grade != null and grade != ''">
+                grade = #{grade},
+            </if>
+            <if test="motherName != null and motherName != ''">
+                mother_name = #{motherName},
+            </if>
+            <if test="fatherName != null and fatherName != ''">
+                father_name = #{fatherName},
+            </if>
+            <if test="religion != null and religion != ''">
+                religion = #{religion},
+            </if>
+
+
+            <if test="bornCity != null and bornCity != ''">
+                born_city = #{bornCity},
+            </if>
+            <if test="birthDay != null and birthDay != ''">
+                birth_day = #{birthDay},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="district != null and district != ''">
+                district = #{district},
+            </if>
+
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+        </set>
+        WHERE student_id = #{studentId}
+    </update>
+
+    <select id="getBiodataByStudentId" resultType="com.project.student.dto.BiodataDto" parameterType="com.project.student.dto.BiodataDto">
+        SELECT  id as id,
+                student_id as studentId,
+                student_name as student_name,
+                gender as gender,
+
+                major as major,
+                grade as grade,
+                mother_name as motherName,
+                father_name as fatherName,
+                religion as religion,
+
+                born_city as bornCity,
+                birth_day as birthDay,
+                province as province,
+                city as city,
+                district as district,
+
+                address as address,
+                create_time as createTime,
+                update_time as updateTime
+        FROM student.biodata
+        <where>
+            1=1
+            <if test="studentId != null and studentId != '' ">
+             and student_id = #{studentId}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

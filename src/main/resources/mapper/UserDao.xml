@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.project.task.dao.UserDao">
+<mapper namespace="com.project.student.dao.UserDao">
 
-    <insert id="add" parameterType="com.project.task.dto.UserDto" useGeneratedKeys="true" keyProperty="id">
-        insert into task.user
+    <insert id="add" parameterType="com.project.student.dto.UserDto" useGeneratedKeys="true" keyProperty="id">
+        insert into teacher.user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="email != null and email != ''">email,</if>
             <if test="phone != null and phone != ''">phone,</if>
@@ -24,7 +24,7 @@
         </trim>
     </insert>
 
-    <select id="get" resultType="com.project.task.dto.UserDto" parameterType="com.project.task.dto.UserDto">
+    <select id="get" resultType="com.project.student.dto.UserDto" parameterType="com.project.student.dto.UserDto">
         SELECT  id as id,
                 email as email,
                 phone as phone,
@@ -34,7 +34,7 @@
                 status as status,
                 create_time as createTime,
                 update_time as updateTime
-        FROM task.user
+        FROM student.user
         <where>
             1=1
             <if test="id != null and id != '' ">
@@ -56,7 +56,7 @@
         order by id desc
     </select>
 
-    <select id="getUserByPassword" resultType="com.project.task.dto.UserDto" parameterType="com.project.task.dto.UserDto">
+    <select id="getUserByPassword" resultType="com.project.student.dto.UserDto" parameterType="com.project.student.dto.UserDto">
         SELECT  id as id,
         email as email,
         phone as phone,
@@ -66,7 +66,7 @@
         status as status,
         create_time as createTime,
         update_time as updateTime
-        FROM task.user
+        FROM student.user
         <where>
             1=1
             <if test="id != null and id != '' ">
@@ -91,8 +91,8 @@
         limit 1
     </select>
 
-    <update id="update" parameterType="com.project.task.dto.UserDto">
-        update task.user
+    <update id="update" parameterType="com.project.student.dto.UserDto">
+        update student.user
         <set>
             <if test="name != null and name != ''">name = #{name},</if>
             <if test="merk != null and merk != ''">merk = #{merk},</if>
@@ -103,12 +103,52 @@
         WHERE id = #{id}
     </update>
 
-    <update id="changePassword" parameterType="com.project.task.dto.UserDto">
-        update task.user
+    <update id="changePassword" parameterType="com.project.student.dto.UserDto">
+        update student.user
         <set>
             <if test="password != null and password != ''">password = #{password},</if>
         </set>
         WHERE id = #{id}
     </update>
 
+    <select id="getAllStudent" resultType="com.project.student.dto.StudentDto" parameterType="com.project.student.dto.StudentDto">
+        SELECT  a.id as studentId,
+        a.email as email,
+        a.phone as phone,
+        a.username as username,
+        b.student_name as studentName,
+        a.status as status,
+        b.major as major,
+        b.grade as grade,
+        b.gender as gender,
+        a.create_time as createTime,
+        a.update_time as updateTime
+        FROM student.user a
+        LEFT JOIN student.biodata b on a.id = b.student_id
+        <where>
+            1=1
+            <if test="studentId != null and studentId != '' ">
+                and a.id = #{id}
+            </if>
+            <if test="email != null and email != ''">
+                and a.email = #{email}
+            </if>
+            <if test="phone != null and phone != ''">
+                and a.phone = #{phone}
+            </if>
+            <if test="username != null and username != ''">
+                and a.username = #{username}
+            </if>
+            <if test="status != null and status != ''">
+                and a.status = #{status}
+            </if>
+            <if test="major != null and major != ''">
+                and b.major = #{major}
+            </if>
+            <if test="grade != null and grade != ''">
+                and b.grade = #{grade}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
 </mapper>
